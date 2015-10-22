@@ -77,4 +77,16 @@
     <color name="red14">#FFE4E4</color>
 
 
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+
+    <!-- the activated state color -->
+    <color name="activated">#E0E0E0</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#cccccc</color>
+    <color name="grey_700">#646464</color>
+    <color name="black">#000000</color>
+
+
 </resources>
