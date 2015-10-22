@@ -1,6 +1,8 @@
 package barqsoft.footballscores;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,32 +23,42 @@ import java.util.Date;
  */
 public class PagerFragment extends Fragment
 {
+    public static final String LOG_TAG = "PagerFragment";
     public static final int NUM_PAGES = 5;
     public ViewPager mPagerHandler;
     private myPageAdapter mPagerAdapter;
     private MainScreenFragment[] viewFragments = new MainScreenFragment[5];
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
         mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
         mPagerAdapter = new myPageAdapter(getChildFragmentManager());
+        mPagerHandler.setAdapter(mPagerAdapter);
+
         for (int i = 0;i < NUM_PAGES;i++)
         {
+
             Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
             viewFragments[i] = new MainScreenFragment();
             viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
         }
-        mPagerHandler.setAdapter(mPagerAdapter);
+
         mPagerHandler.setCurrentItem(MainActivity.current_fragment);
         return rootView;
     }
     private class myPageAdapter extends FragmentStatePagerAdapter
     {
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
         @Override
         public Fragment getItem(int i)
         {
+            Log.v("myPageAdapter", "i = "+ String.valueOf(i)); int currentApiVersion = Build.VERSION.SDK_INT;
+            if( currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN && mPagerHandler.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                i = NUM_PAGES-i-1;
+            }
             return viewFragments[i];
         }
 
@@ -60,14 +73,21 @@ public class PagerFragment extends Fragment
             super(fm);
         }
         // Returns the page title for the top indicator
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
         @Override
         public CharSequence getPageTitle(int position)
         {
+            int currentApiVersion = Build.VERSION.SDK_INT;
+            if( currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN && mPagerHandler.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                position = Utilities.inversePositionForRTL(position, getCount());
+            }
+
             return getDayName(getActivity(),System.currentTimeMillis()+((position-2)*86400000));
         }
         public String getDayName(Context context, long dateInMillis) {
             // If the date is today, return the localized version of "Today" instead of the actual
             // day name.
+
 
             Time t = new Time();
             t.setToNow();
