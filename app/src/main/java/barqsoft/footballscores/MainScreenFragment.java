@@ -28,9 +28,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     }
 
     private void update_scores() {
-//        Intent service_start = new Intent(getActivity(), myFetchService.class);
-//        getActivity().startService(service_start);
-
         ScoresSyncAdapter.syncImmediately(getActivity());
     }
 
