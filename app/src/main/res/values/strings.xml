@@ -39,4 +39,8 @@
     <string name="awayCrest">Away Team Crest</string>
     <!-- Strings related to Widgets -->
     <string name="title_widget_today">Football Scores Today</string>
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">footballScores.example.com</string>
+    <string name="content_authority"> barqsoft.footballscores</string>
 </resources>
