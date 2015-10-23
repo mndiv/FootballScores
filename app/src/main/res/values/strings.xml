@@ -43,4 +43,5 @@
     <!-- SyncAdapter related -->
     <string name="sync_account_type">footballScores.example.com</string>
     <string name="content_authority"> barqsoft.footballscores</string>
+    <string name="title_widget_detail">Scores Details</string>
 </resources>
