@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.net.Uri;
@@ -47,6 +48,9 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
         super(context,autoInitialize);
         mContext = context;
     }
+
+    public static final String ACTION_DATA_UPDATED =
+            "com.example.android.sunshine.app.ACTION_DATA_UPDATED";
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
@@ -282,6 +286,8 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
             inserted_data = mContext.getContentResolver().bulkInsert(
                     DatabaseContract.BASE_CONTENT_URI,insert_data);
 
+            updateWidgets();
+
             Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
         }
         catch (JSONException e)
@@ -289,6 +295,14 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.e(LOG_TAG,e.getMessage());
         }
 
+    }
+
+    private void updateWidgets() {
+        Context context = getContext();
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
     }
 
     /**
