@@ -57,7 +57,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
 
 
                 final long identityToken = Binder.clearCallingIdentity();
-                Date fragmentDate = new Date(System.currentTimeMillis() + (-2 * 86400000));
+                Date fragmentDate = new Date(System.currentTimeMillis() + (0 * 86400000));
                 SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
                 fragmentdate[0] = mformat.format(fragmentDate);
 

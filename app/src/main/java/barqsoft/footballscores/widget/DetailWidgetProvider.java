@@ -82,6 +82,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
      *
      * @param views RemoteViews to set the RemoteAdapter
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @SuppressWarnings("deprecation")
     private void setRemoteAdapterV11(Context context, @NonNull final RemoteViews views) {
         views.setRemoteAdapter(0, R.id.widget_list,
